@@ -4,15 +4,14 @@ public:
         int n=nums.size();
         int numSubarray=0;
 
-        for(int i=0;i<n-1;i++){
-            if(nums[i]==k) numSubarray++;
-            int sum=nums[i];
+        for(int i=0;i<n;i++){
+            if(nums[i]==k) numSubarray++; //checking whether 1st element is k
+            int sum=nums[i]; // initialise sum
             for(int j=i+1;j<n;j++){
                 sum+=nums[j];
                 if(sum==k) numSubarray++;
             }
         }
-        if(nums[n-1]==k) numSubarray++;
         return numSubarray;
     }
 };
