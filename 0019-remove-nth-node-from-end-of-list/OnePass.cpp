@@ -12,10 +12,13 @@ class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
         ListNode *slow=head, *fast=head;
+
+        // This ensures slow is exactly n nodes behind fast
         for(int i=0;i<n;i++){
             fast=fast->next;
         }
 
+        // Edge case: If fast is nullptr after moving n steps → we need to remove head
         if(!fast){
             return head->next;
         }
@@ -24,6 +27,8 @@ public:
             fast=fast->next; //starting from nth (from starting)
             slow=slow->next; //starting from head (stop in before nth node from end)
         }
+
+        // delete the link
         slow->next=slow->next->next;
         return head;
     }
