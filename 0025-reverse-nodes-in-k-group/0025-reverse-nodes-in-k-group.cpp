@@ -10,25 +10,44 @@
  */
 class Solution {
 public:
-    ListNode* reverseKGroup(ListNode* head, int k) {
-        ListNode *left=head,*right=head;
-        vector<int> vec;
+    ListNode *getkthNode(ListNode *temp,int k){
+        k=k-1;
+        while(temp!=NULL && k>0){
+            k--;
+            temp=temp->next;
+        }
+        return temp;
+    }
 
-        while(right){
-            int ct=k;
-            while(ct && right){
-                vec.push_back(right->val);
-                right=right->next;
-                ct--;
+    ListNode *getReverse(ListNode* head){
+        ListNode *p=head, *prev=NULL;
+        while(p){
+            ListNode *nextNode = p->next;
+            p->next = prev;
+            prev=p;
+            p=nextNode;
+        }
+        return prev;
+    }
+
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode *temp=head, *kthNode=head, *nextNode=NULL, *prevNode=NULL;
+
+        while(temp){
+            kthNode = getkthNode(temp,k);
+            if(kthNode==NULL){
+                if(prevNode) prevNode->next=temp;
+                break;
             }
-            if(ct) break;
-            ct=k;
-            while(ct){
-                left->val=vec.back();
-                vec.pop_back();
-                left=left->next;
-                ct--;
-            }
+            nextNode=kthNode->next;
+            kthNode->next=NULL;
+            getReverse(temp);
+
+            if(temp==head) head=kthNode;
+            else prevNode->next=kthNode;
+
+            prevNode=temp;
+            temp=nextNode;
         }
         return head;
     }
