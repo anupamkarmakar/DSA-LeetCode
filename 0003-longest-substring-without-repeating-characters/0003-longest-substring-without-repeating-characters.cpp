@@ -1,16 +1,23 @@
 class Solution {
 public:
-    int lengthOfLongestSubstring(const string& s) {
-    vector<int> last(256, -1); // last index seen for each ASCII char
-    int left = 0, best = 0;
-    for (int right = 0; right < (int)s.size(); ++right) {
-        unsigned char c = s[right];
-        if (last[c] >= left) {
-            left = last[c] + 1;
+    // using set
+    int lengthOfLongestSubstring(string s) {
+        int n=s.size();
+        unordered_set <char> charset;
+        int left=0;
+        int maxlen=0;
+        for(int right=0;right<n;right++){
+            if(charset.count(s[right])==0){
+                charset.insert(s[right]);
+                maxlen=max(maxlen,right-left+1);
+            }else{
+                while(charset.count(s[right])){
+                    charset.erase(s[left]);
+                    left++;
+                }
+                charset.insert(s[right]);
+            }
         }
-        last[c] = right;
-        best = max(best, right - left + 1);
+        return maxlen;
     }
-    return best;
-}
 };
