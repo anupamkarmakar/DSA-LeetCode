@@ -1,24 +1,23 @@
 class Solution {
 public:
     typedef long long ll;
+
     int minRemoval(vector<int>& nums, int k) {
         int n = nums.size();
-        int len=0, minlen=INT_MAX;
-
         sort(nums.begin(), nums.end());
 
-        int i=0, j=0;
-        while(j<n && i<n){
-            while(j<n && (ll)nums[i]*k>= (ll)nums[j]){
+        int j = 0;
+        int minRemove = n;   // worst case remove all
+
+        for (int i = 0; i < n; i++) {
+            while (j < n && (ll)nums[j] <= (ll)nums[i] * k) {
                 j++;
             }
 
-            len = n-(j-i);
-            minlen = min(len,minlen);
-
-            i++;
+            int keep = j - i;
+            minRemove = min(minRemove, n - keep);
         }
 
-        return minlen;
+        return minRemove;
     }
 };
